@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Считываем флаг отправки в Telegram
     const sendToTelegram = sendToTelegramInput.checked;
 
-    // Пишем пользователю, что начато формирование отчёта
+    // Оповещение о начале формирования отчета
     result.textContent = "Формируем отчёт...";
 
     try {

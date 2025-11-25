@@ -8,12 +8,12 @@ import os                       # работа с путями и каталог
 from datetime import datetime   # для создания метки времени в имени файла
 
 import pandas as pd             # библиотека для работы с табличными данными
+from app.telegram_client import TelegramClient # для отправки отчета в телеграм
 
 from app.config import settings     # путь к отчётам
 from app.ozon_client import OzonClient  # фасад к Seller API
 
-
-def generate_report(min_reviews: int = 0) -> str:
+def generate_report(min_reviews: int = 0, send_to_telegram: bool = False) -> str:
 
     # min_reviews — минимальное количество отзывов, чтобы товар был включён в отчёт.
 
@@ -22,6 +22,7 @@ def generate_report(min_reviews: int = 0) -> str:
 
     # Создаём клиента для работы с Seller API
     client = OzonClient()
+    tg_client = TelegramClient()
 
     # Сопоставление sku → offer_id, name
     sku_map = client.get_sku_map()
@@ -68,5 +69,9 @@ def generate_report(min_reviews: int = 0) -> str:
 
     print("Отчёт сохранён в файл:", file_path)
     print("Количество строк в отчёте:", len(df))
+    
+    # Если отправлен в телеграм - отправляем файл в чат
+    if send_to_telegram:
+        tg_client.send_document(file_path, caption="Отчёт по рейтингам и отзывам Ozon")
 
     return file_path

@@ -1,6 +1,6 @@
 # Модуль клиента для Ozon Seller API. Реализуем паттерн Facade:
-# Скрываем детали HTTP-запросов,
-# Предоставляем простые методы get_sku_map(), get_reviews_stat().
+# Скрываем детали запросов
+# Предоставляем простые методы get_sku_map(), get_reviews_stat()
 
 from __future__ import annotations  # позволяет использовать аннотации типов в виде строк (для совместимости)
 
@@ -26,7 +26,7 @@ class OzonClient:
     def _post(self, path: str, payload: dict | None = None) -> dict:
         
         # Внутренний метод отправки POST-запроса
-        # path    - путь (например "/v3/product/list")
+        # path - путь (например "/v3/product/list")
         # payload - тело запроса в виде словаря 
         
         url = f"{self.base_url}{path}"

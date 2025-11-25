@@ -11,6 +11,12 @@ class Settings(BaseSettings):
 
     # API-ключ Seller API (из личного кабинета Ozon)
     ozon_api_key: str = Field(..., env="OZON_API_KEY", description="Api-Key для Seller API")
+    
+    # Токен Telegram-бота 
+    tg_token: str = Field(..., env="TG_TOKEN", description="Токен Telegram-бота")
+
+    # ID чата, куда отправлять отчёт 
+    tg_chat_id: str = Field(..., env="CHAT_ID", description="ID чата для отправки отчёта")
 
     # Каталог, где будут сохраняться Excel-отчёты
     report_dir: str = Field("reports", description="Каталог для сохранения Excel-отчётов")

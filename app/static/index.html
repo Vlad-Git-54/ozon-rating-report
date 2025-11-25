@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Ozon Rating Report</title>
+  <!-- Подключаем JavaScript-файл, который будет вызывать наш REST API -->
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <h1>Ozon Rating Report</h1>
+
+  <p>
+    Эта страница позволяет запустить формирование Excel-отчёта по товарам магазина Ozon.
+  </p>
+
+  <label>
+    Минимальное количество отзывов:
+    <input id="minReviews" type="number" value="0" min="0">
+  </label>
+
+  <button id="runBtn">Сформировать отчёт</button>
+
+  <!-- Элемент для вывода результата работы API -->
+  <pre id="result" style="margin-top:20px; white-space:pre-wrap;"></pre>
+</body>
+</html>

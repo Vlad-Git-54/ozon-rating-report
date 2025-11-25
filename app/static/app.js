@@ -1,47 +1,48 @@
-// Этот скрипт отвечает за взаимодействие HTML-страницы с нашим REST API.
+// Этот скрипт обрабатывает нажатие кнопок на HTML-странице
+// и отправляет запрос к REST API /api/report.
 
-/**
- * Функция инициализации интерфейса.
- * Вызывается, когда DOM загружен.
- */
 document.addEventListener("DOMContentLoaded", () => {
-  // Находим элементы формы по их id
-  const runBtn = document.getElementById("runBtn");
+  // Получаем ссылки на элементы DOM
+  const btn = document.getElementById("runBtn");
   const minReviewsInput = document.getElementById("minReviews");
-  const resultEl = document.getElementById("result");
+  const sendToTelegramInput = document.getElementById("sendToTelegram");
+  const result = document.getElementById("result");
 
-  // Навешиваем обработчик события "click" на кнопку
-  runBtn.addEventListener("click", async () => {
-    // Считываем значение минимального количества отзывов из поля ввода
+  // Вешаем обработчик на кнопку
+  btn.addEventListener("click", async () => {
+    // Считываем значение минимального количества отзывов
     const minReviews = parseInt(minReviewsInput.value || "0", 10);
+    // Считываем флаг отправки в Telegram
+    const sendToTelegram = sendToTelegramInput.checked;
 
-    // Сообщаем пользователю, что процесс начался
-    resultEl.textContent = "Формируем отчёт...";
+    // Пишем пользователю, что начато формирование отчёта
+    result.textContent = "Формируем отчёт...";
 
     try {
-      // Отправляем POST-запрос на эндпоинт /api/report нашего FastAPI-приложения
+      // Отправляем POST-запрос к эндпоинту /api/report
       const response = await fetch("/api/report", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({min_reviews: minReviews})
+        body: JSON.stringify({
+          min_reviews: minReviews,
+          send_to_telegram: sendToTelegram
+        })
       });
 
-      // Если статус ответа не 2xx — показываем ошибку
+      // Обработка неуспешного ответа (код не 2xx)
       if (!response.ok) {
         const text = await response.text();
-        resultEl.textContent = "Ошибка: " + response.status + " " + text;
+        result.textContent = "Ошибка: " + response.status + " " + text;
         return;
       }
 
-      // Если всё хорошо — читаем JSON-ответ
+      // Читаем JSON-ответ
       const data = await response.json();
-
-      // Выводим пользователю путь к файлу и количество строк
-      resultEl.textContent =
+      result.textContent =
         "Отчёт сформирован.\nФайл: " + data.file_path + "\nСтрок в отчёте: " + data.rows;
     } catch (e) {
-      // Обрабатываем возможные сетевые ошибки
-      resultEl.textContent = "Ошибка запроса: " + e;
+      // Обработка сетевых ошибок
+      result.textContent = "Ошибка запроса: " + e;
     }
   });
 });

@@ -4,7 +4,7 @@ from pydantic import BaseSettings  # базовый класс для описа
 from pydantic import Field        # позволяет задать доп. параметры
 
 class Settings(BaseSettings):
-    """Класс настроек приложения. Значения будут автоматически прочитаны из файла .env (если он существует)."""
+    """Класс настроек приложения. Значения будут автоматически прочитаны из файла .env"""
 
     # Идентификатор клиента Seller API (из личного кабинета Ozon)
     ozon_client_id: str = Field(..., env="OZON_CLIENT_ID", description="Client-Id для Seller API")
@@ -23,5 +23,4 @@ class Settings(BaseSettings):
 
 
 # Создаём единственный экземпляр настроек.
-# Используется во всём проекте (from app.config import settings)
 settings = Settings()

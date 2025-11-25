@@ -15,7 +15,7 @@ def test_generate_report_creates_file(tmp_path, monkeypatch):
     monkeypatch.setattr(settings, "report_dir", str(tmp_path))
 
     # Формируем отчёт
-    file_path = generate_report(min_reviews=0)
+    file_path = generate_report(min_reviews=0, send_to_telegram=False)
 
     # Проверяем существование файла
     assert os.path.exists(file_path)

@@ -35,6 +35,7 @@ class ReportParams(BaseModel):
     """Входные параметры для API /api/report."""
   
     min_reviews: int = Field(0, ge=0, description="Минимальное количество отзывов")
+    send_to_telegram: bool = Field(False, description="Отправить ли отчёт в Telegram")
 
 
 class ReportResponse(BaseModel):
@@ -55,7 +56,10 @@ def health() -> dict:
 def api_report(params: ReportParams) -> ReportResponse:
     """Генерация отчёта."""
   
-    file_path = generate_report(min_reviews=params.min_reviews)
+    file_path = generate_report(
+    min_reviews=params.min_reviews,
+    send_to_telegram=params.send_to_telegram,
+)
     df = pd.read_excel(file_path)
     return ReportResponse(file_path=file_path, rows=len(df))
 

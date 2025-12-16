@@ -1,6 +1,6 @@
 # Модуль конфигурации проекта. Используем Pydantic BaseSettings для загрузки настроек из .env 
 
-from pydantic import BaseSettings  # базовый класс для описания настроек
+from pydantic_settings import BaseSettings  # базовый класс для описания настроек
 from pydantic import Field        # позволяет задать доп. параметры
 
 class Settings(BaseSettings):
